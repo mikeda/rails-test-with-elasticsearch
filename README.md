@@ -1,0 +1,1 @@
+# rails-test-with-elasticsearch
