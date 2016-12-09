@@ -18,13 +18,16 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys D88E42B4 &
     echo "deb http://packages.elastic.co/elasticsearch/2.x/debian stable main" > /etc/apt/sources.list.d/elasticsearch-2.x.list && \
     apt-get update && apt-get install -y elasticsearch=2.3.3
 
+RUN /usr/share/elasticsearch/bin/plugin install lmenezes/elasticsearch-kopf &&\
+    /usr/share/elasticsearch/bin/plugin install analysis-kuromoji && \
+    /usr/share/elasticsearch/bin/plugin install analysis-icu
+
 # rootパスワードを"root"に設定してmysql-serverをインストール
 RUN echo "mysql-server mysql-server/root_password password root" | debconf-set-selections && \
     echo "mysql-server mysql-server/root_password_again password root" | debconf-set-selections && \
     apt-get -y install mysql-server mysql-client && \
     echo "character-set-server = utf8mb4" >> /etc/mysql/mysql.conf.d/mysqld.cnf && \
     echo "default-character-set = utf8mb4" >> /etc/mysql/conf.d/mysql.cnf
-
 
 ENV PHANTOMJS_VERSION 2.1.1
 RUN apt-get install -y nodejs && \
@@ -33,3 +36,4 @@ RUN apt-get install -y nodejs && \
     tar jxf phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 && \
     mv phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs && \
     rm -rf phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 phantomjs-$PHANTOMJS_VERSION-linux-x86_64
+
