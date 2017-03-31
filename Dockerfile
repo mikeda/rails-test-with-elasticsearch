@@ -37,3 +37,5 @@ RUN apt-get install -y nodejs && \
     mv phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs && \
     rm -rf phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 phantomjs-$PHANTOMJS_VERSION-linux-x86_64
 
+# Redis
+RUN apt-get install -y redis-server
