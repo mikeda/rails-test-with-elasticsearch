@@ -1,13 +1,13 @@
 FROM ubuntu:16.04
 
-# RUN cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
-#     echo 'Asia/Tokyo' > /etc/timezone && date
-
 RUN cat /etc/apt/sources.list | sed -e 's|http://[^ ]*|mirror://mirrors.ubuntu.com/mirrors.txt|g' > /tmp/sources.list && mv /tmp/sources.list /etc/apt/sources.list
 RUN apt-get update && \
     apt-get install -y software-properties-common git-core build-essential autoconf curl \
       zlib1g-dev libmysqlclient-dev imagemagick libmagickcore-dev libmagickwand-dev libssl-dev libreadline-dev \
-      libyaml-dev libxml2-dev libxslt-dev
+      libyaml-dev libxml2-dev libxslt-dev tzdata
+
+RUN cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
+    echo 'Asia/Tokyo' > /etc/timezone && date
 
 # elasticsearch
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886 && \
