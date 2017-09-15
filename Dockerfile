@@ -59,7 +59,7 @@ RUN git clone https://github.com/sstephenson/ruby-build.git /root/.rbenv/plugins
 RUN /root/.rbenv/plugins/ruby-build/install.sh
 RUN echo 'export PATH=/root/.rbenv/bin:/root/.rbenv/shims:$PATH' >> /etc/profile.d/rbenv.sh
 RUN echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh
-RUN source /etc/profile.d/rbenv.sh
+ENV PATH /root/.rbenv/bin:/root/.rbenv/shims:$PATH
 RUN rbenv install 2.4.1
 RUN echo 'gem: --no-rdoc --no-ri' >> /.gemrc
 RUN rbenv global 2.4.1
