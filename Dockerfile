@@ -57,9 +57,9 @@ RUN apt-get install -y redis-server
 RUN git clone https://github.com/sstephenson/rbenv.git /root/.rbenv
 RUN git clone https://github.com/sstephenson/ruby-build.git /root/.rbenv/plugins/ruby-build
 RUN /root/.rbenv/plugins/ruby-build/install.sh
-ENV PATH /root/.rbenv/bin:/root/.rbenv/shims:$PATH
-RUN echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh # or /etc/profile
-RUN echo 'eval "$(rbenv init -)"' >> .bashrc
+RUN echo 'export PATH=/root/.rbenv/bin:/root/.rbenv/shims:$PATH' >> /etc/profile.d/rbenv.sh
+RUN echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh
+RUN source /etc/profile.d/rbenv.sh
 RUN rbenv install 2.4.1
 RUN echo 'gem: --no-rdoc --no-ri' >> /.gemrc
 RUN rbenv global 2.4.1
