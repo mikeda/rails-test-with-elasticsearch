@@ -4,27 +4,26 @@ RUN cat /etc/apt/sources.list | sed -e 's|http://[^ ]*|mirror://mirrors.ubuntu.c
 RUN apt-get update && \
     apt-get install -y software-properties-common git-core build-essential autoconf curl \
       zlib1g-dev libmysqlclient-dev imagemagick libmagickcore-dev libmagickwand-dev libssl-dev libreadline-dev \
-      libyaml-dev libxml2-dev libxslt-dev tzdata
+      libyaml-dev libxml2-dev libxslt-dev tzdata apt-transport-https
 
 RUN cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
     echo 'Asia/Tokyo' > /etc/timezone && date
 
-# elasticsearch
+# java
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886 && \
     echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" > /etc/apt/sources.list.d/webupd8team-java-trusty.list && \
     echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
     apt-get update && apt-get install -y oracle-java8-installer
 
+# elasticsearch
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys D88E42B4 && \
-    echo "deb http://packages.elastic.co/elasticsearch/2.x/debian stable main" > /etc/apt/sources.list.d/elasticsearch-2.x.list && \
-    apt-get update && apt-get install -y elasticsearch=2.3.3
+    echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" > /etc/apt/sources.list.d/elasticsearch-5.x.list && \
+    apt-get update && apt-get install -y elasticsearch=5.6.1
 
-RUN /usr/share/elasticsearch/bin/plugin install lmenezes/elasticsearch-kopf &&\
-    /usr/share/elasticsearch/bin/plugin install analysis-kuromoji && \
-    /usr/share/elasticsearch/bin/plugin install analysis-icu
+RUN /usr/share/elasticsearch/bin/elasticsearch-plugin install analysis-kuromoji && \
+    /usr/share/elasticsearch/bin/elasticsearch-plugin install analysis-icu
 
 # nodejs
-RUN apt-get install -y apt-transport-https
 RUN apt-get update -qq
 RUN curl -sS https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
 RUN echo "deb https://deb.nodesource.com/node_6.x xenial main" | tee /etc/apt/sources.list.d/nodesource.list
