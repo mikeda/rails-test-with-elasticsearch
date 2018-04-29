@@ -64,3 +64,5 @@ RUN echo 'gem: --no-rdoc --no-ri' >> /.gemrc
 RUN rbenv global 2.4.1
 RUN ruby --version
 RUN gem install bundler
+
+RUN apt-get install -y libcurl4-gnutls-dev
