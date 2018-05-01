@@ -59,9 +59,9 @@ RUN /root/.rbenv/plugins/ruby-build/install.sh
 ENV PATH /root/.rbenv/bin:/root/.rbenv/shims:$PATH
 RUN echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh # or /etc/profile
 RUN echo 'eval "$(rbenv init -)"' >> .bashrc
-RUN rbenv install 2.4.1
+RUN rbenv install 2.5.1
 RUN echo 'gem: --no-rdoc --no-ri' >> /.gemrc
-RUN rbenv global 2.4.1
+RUN rbenv global 2.5.1
 RUN ruby --version
 RUN gem install bundler
 
